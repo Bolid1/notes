@@ -22,11 +22,11 @@ just replace all spaces in header to `-`. For example:
 ## Install Google Cloud (GCloud) on Windows
 1. Open PowerShell with admin rights
 2. Input code:
-    ```bash
+    ```powershell
     choco install -y gcloudsdk
     ```
 3. Ensure you have latest version of GCloud
-    ```bash
+    ```powershell
     gcloud components update
     ```
 
@@ -40,14 +40,14 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
 ## Authenticate in GCloud
 1. Open PowerShell
 2. Input code:
-    ```bash
+    ```powershell
     gcloud auth login
     ```
 
 ## Get Google Cloud projects list
 1. Open PowerShell
 2. Input code:
-    ```bash
+    ```powershell
     gcloud projects list
     ```
 
@@ -57,14 +57,14 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
  to set (for example: `financials`)
     > See ["Get Google Cloud projects list"](#Get-Google-Cloud-projects-list)
 3. Input code:
-    ```bash
+    ```powershell
     gcloud config set project financials
     ```
 
 ## Get current project in Google Cloud
 1. Open PowerShell
 2. Input code:
-    ```bash
+    ```powershell
     gcloud config get-value core/project
     ```
 
@@ -72,7 +72,7 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
 1. Open PowerShell
 2. Choose zone on [this page](https://cloud.google.com/compute/docs/regions-zones/#available)
 3. Input in console (for `us-central1-a`)
-    ```bash
+    ```powershell
     gcloud config set compute/zone us-central1-a
     ```
 
@@ -80,14 +80,14 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
 1. Open PowerShell
 2. Choose region on [this page](https://cloud.google.com/compute/docs/regions-zones/#available)
 3. Input in console (for `us-central1`)
-    ```bash
+    ```powershell
     gcloud config set compute/region us-central1
     ```
 
 ## Get list of clusters from Google Cloud
 1. Open PowerShell
 2. Input in console
-    ```bash
+    ```powershell
     gcloud container clusters list
     ```
 ### If you got exception
@@ -139,7 +139,7 @@ Got from [this post](https://cloud.google.com/container-registry/docs/pushing-an
 4. Open PowerShell
 
 5. Push image to the cloud (Docker client versions > 18.03):
-    ```bash
+    ```powershell
     docker push us.gcr.io/financials-238018/client
     ```
 
@@ -151,22 +151,22 @@ Got from [this post](https://cloud.google.com/container-registry/docs/pushing-an
 ## Install helm on Windows
 1. Open PowerShell with admin rights
 2. Input code:
-    ```bash
+    ```powershell
     choco install -y kubernetes-helm
     ```
 
 ## Create helm chart
 1. Open PowerShell
 2. Go to directory, containing your project, for ex.:
-    ```bash
+    ```powershell
     cd ~/PhpstormProjects/financials/client/
     ```
 3. Go to one level up
-    ```bash
+    ```powershell
     cd ../
     ```
 4. Run `helm create` command with your project directory name
-    ```bash
+    ```powershell
     helm create client
     ```
 5. Go to your directory, now you can see 3 new files & 2 new directories:

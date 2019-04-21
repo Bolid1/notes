@@ -19,7 +19,8 @@ just replace all spaces in header to `-`. For example:
     Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     ```
 
-## Install Google Cloud (GCloud) on Windows
+## Google Cloud (GCloud)
+### Install Google Cloud on Windows
 1. Open PowerShell with admin rights
 2. Input code:
     ```powershell
@@ -30,28 +31,28 @@ just replace all spaces in header to `-`. For example:
     gcloud components update
     ```
 
-## Setup GCloud
+### Setup GCloud
 Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl#before_you_begin)
 1. [Authenticate](#Authenticate-in-GCloud)
 2. [Set current project](#Set-current-project-in-Google-Cloud)
 3. [Set region](#Set-working-region-for-kubernetes-cluster)
 4. [Set zone](#Set-working-zone-for-kubernetes-cluster)
 
-## Authenticate in GCloud
+### Authenticate in GCloud
 1. Open PowerShell
 2. Input code:
     ```powershell
     gcloud auth login
     ```
 
-## Get Google Cloud projects list
+### Get Google Cloud projects list
 1. Open PowerShell
 2. Input code:
     ```powershell
     gcloud projects list
     ```
 
-## Set current project in Google Cloud
+### Set current project in Google Cloud
 1. Open PowerShell
 2. Determine project id _(note: id, not name, it's important!)_
  to set (for example: `financials`)
@@ -61,14 +62,14 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
     gcloud config set project financials
     ```
 
-## Get current project in Google Cloud
+### Get current project in Google Cloud
 1. Open PowerShell
 2. Input code:
     ```powershell
     gcloud config get-value core/project
     ```
 
-## Set working zone for kubernetes cluster
+### Set working zone for kubernetes cluster
 1. Open PowerShell
 2. Choose zone on [this page](https://cloud.google.com/compute/docs/regions-zones/#available)
 3. Input in console (for `us-central1-a`)
@@ -76,7 +77,7 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
     gcloud config set compute/zone us-central1-a
     ```
 
-## Set working region for kubernetes cluster
+### Set working region for kubernetes cluster
 1. Open PowerShell
 2. Choose region on [this page](https://cloud.google.com/compute/docs/regions-zones/#available)
 3. Input in console (for `us-central1`)
@@ -84,13 +85,13 @@ Got from [this page](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
     gcloud config set compute/region us-central1
     ```
 
-## Get list of clusters from Google Cloud
+### Get list of clusters from Google Cloud
 1. Open PowerShell
 2. Input in console
     ```powershell
     gcloud container clusters list
     ```
-### If you got exception
+#### If you got exception
 And exception looks like:
 ```text
 ERROR: (gcloud.container.clusters.list) ResponseError: code=403, message=Required "container.clusters.list" permission(s) for "projects/financials". See https://cloud.google.com/kubernetes-engine/docs/troubleshooting#gke_service_account_deleted for more info.
@@ -110,7 +111,7 @@ If it is right, follow the steps
     3. Then click __Enable__
 7. Wait for a while, then try again get list of clusters
 
-## Connect to Kubernetes cluster in Google Cloud
+### Connect to Kubernetes cluster in Google Cloud
 Got from [this post](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl#generate_kubeconfig_entry)
 1. Open PowerShell
 2. Determine name of the cluster, you want connect to
@@ -118,10 +119,10 @@ Got from [this post](https://cloud.google.com/kubernetes-engine/docs/how-to/clus
 
    > Note: Running gcloud container clusters get-credentials also changes the current context for kubectl to that cluster
 
-## Deploy docker image to Google Cloud
+### Deploy docker image to Google Cloud
 Got from [this post](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 
-### Steps
+#### Steps
 1. Determine the hostname. Available options:
     * gcr.io (United States)
     * us.gcr.io (United States)
@@ -148,14 +149,15 @@ Got from [this post](https://cloud.google.com/container-registry/docs/pushing-an
     https://console.cloud.google.com/gcr/images/[PROJECT-ID]
     ```
 
-## Install helm on Windows
+## Helm
+### Install helm on Windows
 1. Open PowerShell with admin rights
 2. Input code:
     ```powershell
     choco install -y kubernetes-helm
     ```
 
-## Create helm chart
+### Create helm chart
 1. Open PowerShell
 2. Go to directory, containing your project, for ex.:
     ```powershell
@@ -184,3 +186,112 @@ Got from [this post](https://cloud.google.com/container-registry/docs/pushing-an
     |   `-- service.yaml
     `-- values.yaml
     ```
+### Try helm config
+1. Open PowerShell
+2. Move to directory with Chart.yml
+    ```powershell
+    cd ~/PhpstormProjects/financials/client/
+    ```
+3. Input code:
+    ```powershell
+    helm install --dry-run --debug .
+    ```
+
+#### Errors
+```text
+Error: grpc: received message larger than max
+```
+Just fill your `.helmignore` file.
+It should ignore all source code (and deps, for example: node_modules)
+
+### Deploy helm config
+1. Open PowerShell
+2. Move to directory with Chart.yml
+    ```powershell
+    cd ~/PhpstormProjects/financials/client/
+    ```
+3. Input code (deploy service `client`):
+    ```powershell
+    helm install --name client .
+    ```
+
+### Upgrade helm config
+1. Open PowerShell
+2. Move to directory with Chart.yml
+    ```powershell
+    cd ~/PhpstormProjects/financials/client/
+    ```
+3. Input code (deploy service `client`):
+    ```powershell
+    helm upgrade client . --recreate-pods
+    ```
+
+### External access to container
+By default, the chart will create a ClusterIP type Service, 
+so NGINX will only be exposed internally in the cluster. 
+To access it externally, you should use the NodePort type instead.
+
+### Install Ingress with helm
+1. Open PowerShell
+2. Input code:
+    ```powershell
+    helm install --name nginx-ingress stable/nginx-ingress --set rbac.create=true
+    ```
+
+## Kubernetes
+### Get info about pods
+1. Open PowerShell
+2. Input code:
+    ```powershell
+    kubectl get pods
+    ```
+### Get info about services
+1. Open PowerShell
+2. Input code:
+    ```powershell
+    kubectl get services
+    ```
+    or
+    ```powershell
+    kubectl get svc
+    ```
+### Get info about service
+1. Open PowerShell
+2. Input code:
+    ```powershell
+    kubectl get service nginx-ingress-controller
+    ```
+### Get info about nodes
+Got from [here](https://cloud.google.com/kubernetes-engine/docs/how-to/exposing-apps#creating_a_service_of_type_nodeport)
+1. Open PowerShell
+2. Input code:
+    ```powershell
+    kubectl get nodes --output wide
+    ```
+
+### Proxy service to local
+Got from [here](https://cloud.google.com/solutions/continuous-integration-helm-concourse#deploying_a_change_to_the_application)
+1. Open PowerShell
+2. Determine pod name, that you want to proxy
+    > See [Get info about pods](#Get-info-about-pods)
+3. Input code (proxy pod `client-5679767f4d-hwns9`, local ip `8080`, pod port `80`)
+    ```powershell
+    kubectl port-forward client-5679767f4d-hwns9 8080:80
+    ```
+
+### Expose NodePort
+1. Open PowerShell
+2. Determine PORT, that you wish to expose
+    > See [Get info about pods](#Get-info-about-service)
+    
+    > You should use second value of port, for example in
+    ```text
+    client    NodePort   10.55.248.219   <none>        80:31620/TCP   1h
+    ```
+    > you should choose port 31620
+2. Input code (expose port `31620`):
+    ```powershell
+    gcloud compute firewall-rules create test-node-port --allow tcp:31620
+    ```
+3. See your [node IPs](#Get-info-about-nodes)
+4. Go to $(your node ip):$(port) to see your application

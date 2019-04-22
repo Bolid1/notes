@@ -295,3 +295,30 @@ Got from [here](https://cloud.google.com/solutions/continuous-integration-helm-c
     ```
 3. See your [node IPs](#Get-info-about-nodes)
 4. Go to $(your node ip):$(port) to see your application
+
+### Expose with Ingress
+Got from [this page](https://cloud.google.com/community/tutorials/nginx-ingress-gke#nginx_ingress_controller_on_kubernetes_engine)
+1. [Install helm](#Install-helm-on-Windows)
+2. Install tiller
+    > TODO: Add steps
+3. Set values for sections:
+    > Work when you created config with helm create and templates/ingress component
+    ```yaml
+    ingress:
+      enabled: true
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      hosts:
+        # Host must be commented, until you have
+        # - host: chart-example.local
+        - paths:
+            - /
+    ```
+4. [Deploy your helm config](#Deploy-helm-config)
+5. [Install Ingress with helm](#Install-Ingress-with-helm)
+6. Check, that ingress see your service
+    ```powershell
+    kubectl get ingress
+    ```
+7. Look your IP in [Get info about services](#Get-info-about-services)

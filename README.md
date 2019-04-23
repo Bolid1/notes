@@ -149,6 +149,19 @@ Got from [this post](https://cloud.google.com/container-registry/docs/pushing-an
     https://console.cloud.google.com/gcr/images/[PROJECT-ID]
     ```
 
+### Reserve global static IP address for Ingress in GCloud
+Got from [here](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress)
+1. Open PowerShell
+2. Reserve global static IP address for your application (for example, will name it `financials-ip`)
+    > Ingress works only with global static IP addresses, not regional
+    ```powershell
+    gcloud compute addresses create financials-ip --global
+    ```
+3. Let's see what IP was created for you by GCloud
+    ```powershell
+    gcloud compute addresses describe financials-ip --global
+    ```
+
 ## Helm
 ### Install helm on Windows
 1. Open PowerShell with admin rights
@@ -322,3 +335,20 @@ Got from [this page](https://cloud.google.com/community/tutorials/nginx-ingress-
     kubectl get ingress
     ```
 7. Look your IP in [Get info about services](#Get-info-about-services)
+
+### Setup static IP for Ingress with GCloud
+Got from [here](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip#step_2b_using_an_ingress)
+1. [Reserve global static IP address](#Reserve-global-static-IP-address-for-Ingress-in-GCloud)
+2. To expose a web application on a 
+static IP using Ingress, you need to deploy two resources:
+    * [A Service with type:NodePort](#External-access-to-container)
+    * An Ingress configured with the service name and static IP annotation
+        * Annotation should looks like
+        ```yaml
+        kubernetes.io/ingress.global-static-ip-name: financials-ip
+        ```
+         where `financials-ip` - the name of global static IP address
+3. _\[optional\]_ To see the reserve IP address associated with the load balancer:
+    ```powershell
+    kubectl get ingress
+    ```

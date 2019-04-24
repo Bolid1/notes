@@ -352,3 +352,19 @@ static IP using Ingress, you need to deploy two resources:
     ```powershell
     kubectl get ingress
     ```
+    
+## GoDaddy
+### Setup subDomain ip
+1. Go to [this page](https://dcc.godaddy.com/domains/)
+2. Click on the ellipsis (...) to the right of your domain name
+3. Choose "Manage DNS"
+4. Click "Add" at bottom right side of the table
+5. Select type "A"
+6. Input short subDomain name in field "Host". For example,
+if you have domain "example.com" and
+want to configure subDomain "foo.example.com", in field "Host"
+you must input "foo"
+7. Input your server IP address in field "Target"
+8. Click "Ok"
+
+Please note that it may take up to 48 hours to apply the settings.
